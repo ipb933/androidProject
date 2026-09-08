@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#9F50C1"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="add"
+        android:layout_margin="20dp"
+        android:background="#DF746D"
+        />
+
+    <EditText
+        android:id="@+id/etGameNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:hint="game number"
+        android:layout_margin="20dp"
+        android:background="#DF746D"
+        />
+
+    <EditText
+        android:id="@+id/etRobotNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:hint="robot number"
+        android:layout_margin="20dp"
+        android:background="#DF746D"
+        />
+
+    <EditText
+        android:id="@+id/etRobotScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:hint="robotScore"
+        android:layout_margin="20dp"
+        android:background="#DF746D"
+        />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="#F44336"
+        android:text="add"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="#F44336"
+        android:text="back"
+        android:textSize="20sp" />
+
+</LinearLayout>
