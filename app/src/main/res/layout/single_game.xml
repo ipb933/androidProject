@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layoutDirection="ltr">
+    <TextView
+        android:id="@+id/tvGameNumber"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:textSize="12sp"
+        android:text="game number"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:id="@+id/tvBlue1"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:textSize="12sp"
+        android:text="blue 1"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:id="@+id/tvBlue2"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:textSize="12sp"
+        android:text="blue 2"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:id="@+id/tvBlue3"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:textSize="12sp"
+        android:text="blue 3"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:id="@+id/tvRed1"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:textSize="12sp"
+        android:text="red 1"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:id="@+id/tvRed2"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:textSize="12sp"
+        android:text="red 2"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:id="@+id/tvRed3"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_gravity="top"
+        android:textSize="12sp"
+        android:text="red 3"
+        android:layout_margin="2dp"/>
+
+</LinearLayout>

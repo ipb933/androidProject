@@ -11,10 +11,10 @@ public class Robot implements Serializable {
     public Robot() {}
 
 
-    public Robot(String teamName, int teamNumber, double averageScore) {
+    public Robot(String teamName, int teamNumber) {
         this.teamName = teamName;
         this.teamNumber = teamNumber;
-        this.averageScore = averageScore;
+        averageScore = 0;
         gamesPlayed = 0;
     }
 
@@ -38,15 +38,12 @@ public class Robot implements Serializable {
         return averageScore;
     }
 
-    public void setAverageScore(double averageScore) {
-        this.averageScore = averageScore;
-    }
-
     public double getGamesPlayed() {
         return gamesPlayed;
     }
 
-    public void setGamesPlayed(int gamesPlayed) {
-        this.gamesPlayed = gamesPlayed;
+    public void addScore(double score) {
+        averageScore = (averageScore*gamesPlayed + score)/(gamesPlayed + 1);
+        gamesPlayed++;
     }
 }

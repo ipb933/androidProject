@@ -22,13 +22,13 @@
         tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnAddRobotInGame"
         android:layout_width="150dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:background="#F44336"
-        android:text="add"
+        android:text="add robot in a game"
         android:textSize="20sp"
         tools:ignore="HardcodedText" />
     <Button
@@ -42,13 +42,13 @@
         android:textSize="20sp"
         tools:ignore="HardcodedText" />
     <Button
-        android:id="@+id/btnShowGames"
+        android:id="@+id/btnGames"
         android:layout_width="150dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:background="#F44336"
-        android:text="show games"
+        android:text="games"
         android:textSize="20sp"
         tools:ignore="HardcodedText" />
 

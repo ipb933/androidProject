@@ -8,7 +8,6 @@
     android:background="#9F50C1"
     tools:context=".MainActivity">
     <TextView
-        android:id="@+id/tv1"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="center"
@@ -64,13 +63,13 @@
         />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnSend"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_margin="20dp"
         android:background="#F44336"
-        android:text="add"
+        android:text="send"
         android:textSize="20sp" />
 
     <Button

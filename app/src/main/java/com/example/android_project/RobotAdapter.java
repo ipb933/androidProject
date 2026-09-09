@@ -24,9 +24,13 @@ public class RobotAdapter extends ArrayAdapter<Robot> {
     {
         LayoutInflater layoutInflater = ((Activity)context).getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.single_robot,parent,false);
-        TextView tvGameNumber = (TextView)view.findViewById(R.id.tvTeamName);
+        TextView tvTeamName = (TextView)view.findViewById(R.id.tvTeamName);
         TextView tvRobotNumber = (TextView)view.findViewById(R.id.tvRobotNumber);
-        TextView tvRobotScore = (TextView)view.findViewById(R.id.tvRobotAverageScore);
+        TextView tvRobotAverageScore = (TextView)view.findViewById(R.id.tvRobotAverageScore);
+        Robot temp = objects.get(position);
+        tvTeamName.setText(temp.getTeamName());
+        tvRobotNumber.setText(temp.getTeamNumber() + "");
+        tvRobotAverageScore.setText(temp.getAverageScore() + "");
         return view;
     }
 }

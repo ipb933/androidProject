@@ -23,11 +23,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         robotsAdapter = new RobotsAtGameAdapter(this, 0, 0, robotsAtGame);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd = (Button) findViewById(R.id.btnAddRobotInGame);
         btnAdd.setOnClickListener(this);
         btnShowRobots = (Button) findViewById(R.id.btnShowRobots);
         btnShowRobots.setOnClickListener(this);
-        btnShowGames = (Button) findViewById(R.id.btnShowGames);
+        btnShowGames = (Button) findViewById(R.id.btnGames);
         btnShowGames.setOnClickListener(this);
 
     }
@@ -35,7 +35,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         if (view == btnAdd) {
-            Intent intent = new Intent(this, Add.class);
+            Intent intent = new Intent(this, AddRobotInGame.class);
             addRobot.launch(intent);
         }
         if (view == btnShowRobots) {
@@ -44,7 +44,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             startActivity(intent);
         }
         if (view == btnShowGames) {
-            Intent intent = new Intent(this, ShowGames.class);
+            Intent intent = new Intent(this, Games.class);
             intent.putExtra("games", robotsAtGame);
             startActivity(intent);
         }
@@ -64,12 +64,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
                                 for (Robot robot : robots) {
                                     if (robot.teamNumber == robotAtGame.robotNumber){
-                                        robot.averageScore = (robot.averageScore * robot.gamesPlayed + robotAtGame.robotScore) / (robot.gamesPlayed + 1);
-                                        robot.gamesPlayed ++;
+                                        robot.addScore(robotAtGame.robotScore);
                                         return;
                                     }
                                 }
-                                robots.add(new Robot("", robotAtGame.robotNumber, robotAtGame.robotScore));
+                                Robot newRobot = new Robot("", robotAtGame.robotNumber);
+                                newRobot.addScore(robotAtGame.robotScore);
+                                robots.add(newRobot);
                             }
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();

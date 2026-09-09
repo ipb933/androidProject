@@ -10,7 +10,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:background="#E3A977"
-    tools:context=".MainActivity">
+    tools:context=".Games">
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,6 +26,17 @@
         android:id="@+id/lvGames"
         android:layout_width="match_parent"
         android:layout_height="500dp" />
+
+    <Button
+        android:id="@+id/addGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="add game"
+        android:layout_margin="10dp"
+        />
 
     <Button
         android:id="@+id/btnBack"
