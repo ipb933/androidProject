@@ -5,18 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class Games extends AppCompatActivity  implements View.OnClickListener{
     Button btnBack;
-    ListView lvGames;
+    RecyclerView lvGames;
 
     ArrayList<Game> games = new ArrayList<>();
     GameAdapter gameAdapter;
@@ -28,10 +24,10 @@ public class Games extends AppCompatActivity  implements View.OnClickListener{
 
         btnBack = (Button) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(this);
-        lvGames  = (ListView) findViewById(R.id.lvGames);
+        lvGames  = (RecyclerView) findViewById(R.id.lvGames);
         Intent intent = getIntent();
         games = (ArrayList<Game>) intent.getSerializableExtra("games");
-        gameAdapter = new GameAdapter(this, 0, 0, games);
+        gameAdapter = new GameAdapter(games);
         lvGames.setAdapter(gameAdapter);
         registerForContextMenu(lvGames);
     }

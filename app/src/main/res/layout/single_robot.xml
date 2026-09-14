@@ -11,7 +11,7 @@
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:textSize="15sp"
+        android:textSize="24sp"
         android:text="team name"
         android:layout_margin="2dp"/>
 
@@ -20,7 +20,7 @@
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:textSize="15sp"
+        android:textSize="24sp"
         android:text="robot number"
         android:layout_margin="2dp"/>
 
@@ -29,7 +29,7 @@
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:textSize="15sp"
+        android:textSize="24sp"
         android:text="robot average score"
         android:layout_margin="2dp"/>
 
