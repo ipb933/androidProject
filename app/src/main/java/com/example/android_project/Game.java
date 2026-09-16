@@ -2,7 +2,7 @@ package com.example.android_project;
 
 import java.io.Serializable;
 
-public class Game  implements Serializable {
+public class Game implements Serializable {
     int gameNumber;
 
     int blue1Number;

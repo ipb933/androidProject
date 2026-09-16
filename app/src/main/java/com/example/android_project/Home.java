@@ -17,12 +17,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     ArrayList<Robot> robots = new ArrayList<>();
     ArrayList<RobotAtGame> robotsAtGame = new ArrayList<>();
     RobotsAtGameAdapter robotsAdapter;
+    ArrayList<Game> games = new ArrayList<>();
+    GameAdapter gameAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         robotsAdapter = new RobotsAtGameAdapter(this, 0, 0, robotsAtGame);
+        gameAdapter = new GameAdapter(games);
         btnAdd = (Button) findViewById(R.id.btnAddRobotInGame);
         btnAdd.setOnClickListener(this);
         btnShowRobots = (Button) findViewById(R.id.btnShowRobots);
@@ -39,14 +42,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             addRobot.launch(intent);
         }
         if (view == btnShowRobots) {
-            Intent intent = new Intent(this, showRobots.class);
+            Intent intent = new Intent(this, ShowRobots.class);
             intent.putExtra("robots", robots);
             startActivity(intent);
         }
         if (view == btnShowGames) {
             Intent intent = new Intent(this, Games.class);
             intent.putExtra("games", robotsAtGame);
-            startActivity(intent);
+            gamesActivity.launch(intent);
         }
     }
 
@@ -71,6 +74,23 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                                 Robot newRobot = new Robot("", robotAtGame.robotNumber);
                                 newRobot.addScore(robotAtGame.robotScore);
                                 robots.add(newRobot);
+                            }
+                        } else if (result.getResultCode() == RESULT_CANCELED) {
+                            Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+    private final ActivityResultLauncher<Intent> gamesActivity =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK) {
+                            if (result.getData() != null) {
+                                ArrayList<Game> games = (ArrayList<Game>) result.getData().getSerializableExtra("games");
+                                if (games == null) {
+                                    return;
+                                }
+                                this.games = games;
+                                gameAdapter.notifyDataSetChanged();
                             }
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();

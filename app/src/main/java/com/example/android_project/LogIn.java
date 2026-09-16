@@ -8,14 +8,14 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class LogIn extends AppCompatActivity implements View.OnClickListener {
     EditText et1;
     Button btnLogIn,btnQuit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_log_in);
         et1 = (EditText) findViewById(R.id.etName);
         btnLogIn = (Button) findViewById(R.id.btnLogIn);
         btnLogIn.setOnClickListener(this);

@@ -6,15 +6,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
-public class showRobots extends AppCompatActivity implements View.OnClickListener{
+public class ShowRobots extends AppCompatActivity implements View.OnClickListener{
     Button btnBack;
     ListView lvRobots;
 

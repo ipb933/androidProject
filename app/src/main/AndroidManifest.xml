@@ -13,10 +13,13 @@
         android:theme="@style/Theme.Cat"
         tools:targetApi="31">
         <activity
+            android:name=".AddGame"
+            android:exported="false" />
+        <activity
             android:name=".Games"
             android:exported="false" />
         <activity
-            android:name=".showRobots"
+            android:name=".ShowRobots"
             android:exported="false" />
         <activity
             android:name=".ShowGames"
@@ -31,7 +34,7 @@
             android:name=".MainActivity2"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LogIn"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
