@@ -28,13 +28,13 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Game game = games.get(position);
 
-        holder.tvGameNumber.setText(game.getGameNumber());
-        holder.tvBlue1.setText(game.getBlue1Number());
-        holder.tvBlue2.setText(game.getBlue2Number());
-        holder.tvBlue3.setText(game.getBlue3Number());
-        holder.tvRed1.setText(game.getRed1Number());
-        holder.tvRed2.setText(game.getRed2Number());
-        holder.tvRed3.setText(game.getRed3Number());
+        holder.tvGameNumber.setText(String.valueOf(game.getGameNumber()));
+        holder.tvBlue1.setText(String.valueOf(game.getBlue1Number()));
+        holder.tvBlue2.setText(String.valueOf(game.getBlue2Number()));
+        holder.tvBlue3.setText(String.valueOf(game.getBlue3Number()));
+        holder.tvRed1.setText(String.valueOf(game.getRed1Number()));
+        holder.tvRed2.setText(String.valueOf(game.getRed2Number()));
+        holder.tvRed3.setText(String.valueOf(game.getRed3Number()));
     }
 
     @Override

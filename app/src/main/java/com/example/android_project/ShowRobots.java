@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-public class ShowRobots extends AppCompatActivity implements View.OnClickListener{
+public class ShowRobots extends AppCompatActivity implements View.OnClickListener {
     Button btnBack;
-    ListView lvRobots;
-
+    RecyclerView rvRobots;
     ArrayList<Robot> robots = new ArrayList<>();
     RobotAdapter robotAdapter;
 
@@ -22,19 +20,25 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_robots);
 
-        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(this);
-        lvRobots  = (ListView) findViewById(R.id.lvRobots);
-        Intent intent = getIntent();
-        robots = (ArrayList<Robot>) intent.getSerializableExtra("robots");
-        robotAdapter = new RobotAdapter(this, 0, 0, robots);
-        lvRobots.setAdapter(robotAdapter);
-        registerForContextMenu(lvRobots);
+        rvRobots = findViewById(R.id.rvRobots);
+        rvRobots.setLayoutManager(new LinearLayoutManager(this));
+
+        if (getIntent().getSerializableExtra("robots") != null) {
+            robots = (ArrayList<Robot>) getIntent().getSerializableExtra("robots");
+        }
+
+        robotAdapter = new RobotAdapter(robots);
+        rvRobots.setAdapter(robotAdapter);
     }
 
     @Override
     public void onClick(View view) {
         if (view == btnBack) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("robots", robots);
+            setResult(RESULT_OK, resultIntent);
             finish();
         }
     }

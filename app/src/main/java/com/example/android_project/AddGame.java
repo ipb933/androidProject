@@ -36,6 +36,15 @@ public class AddGame extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         if (view == btnSend) {
+            if (etGameNumber.getText().toString().isEmpty() || etBlue1.getText().toString().isEmpty() ||
+                    etBlue2.getText().toString().isEmpty() || etBlue3.getText().toString().isEmpty() ||
+                    etRed1.getText().toString().isEmpty() || etRed2.getText().toString().isEmpty() ||
+                    etRed3.getText().toString().isEmpty()) {
+
+                android.widget.Toast.makeText(this, "Please fill all fields", android.widget.Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             int gameNumber = Integer.parseInt(etGameNumber.getText().toString());
             int blue1Number = Integer.parseInt(etBlue1.getText().toString());
             int blue2Number = Integer.parseInt(etBlue2.getText().toString());

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
+    String name;
     Button btnAdd, btnShowRobots, btnShowGames;
     ArrayList<Robot> robots = new ArrayList<>();
     ArrayList<RobotAtGame> robotsAtGame = new ArrayList<>();
@@ -33,22 +34,27 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         btnShowGames = (Button) findViewById(R.id.btnGames);
         btnShowGames.setOnClickListener(this);
 
+        if (getIntent().getSerializableExtra("name") != null) {
+            name = (String) getIntent().getSerializableExtra("name");
+        }
     }
 
     @Override
     public void onClick(View view) {
         if (view == btnAdd) {
             Intent intent = new Intent(this, AddRobotInGame.class);
+            intent.putExtra("games", games);
+            intent.putExtra("robots", robots);
             addRobot.launch(intent);
         }
         if (view == btnShowRobots) {
             Intent intent = new Intent(this, ShowRobots.class);
             intent.putExtra("robots", robots);
-            startActivity(intent);
+            showRobotsActivity.launch(intent);
         }
         if (view == btnShowGames) {
             Intent intent = new Intent(this, Games.class);
-            intent.putExtra("games", robotsAtGame);
+            intent.putExtra("games", games);
             gamesActivity.launch(intent);
         }
     }
@@ -56,25 +62,23 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     private final ActivityResultLauncher<Intent> addRobot =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
-                        if (result.getResultCode() == RESULT_OK) {
-                            if (result.getData() != null) {
-                                RobotAtGame robotAtGame = (RobotAtGame) result.getData().getSerializableExtra("robotAtGame");
-                                if (robotAtGame == null) {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            RobotAtGame robotAtGame = (RobotAtGame) result.getData().getSerializableExtra("robotAtGame");
+                            if (robotAtGame == null) {
+                                return;
+                            }
+                            robotsAtGame.add(robotAtGame);
+                            robotsAdapter.notifyDataSetChanged();
+
+                            for (Robot robot : robots) {
+                                if (robot.teamNumber == robotAtGame.robotNumber){
+                                    robot.addScore(robotAtGame.robotScore);
                                     return;
                                 }
-                                robotsAtGame.add(robotAtGame);
-                                robotsAdapter.notifyDataSetChanged();
-
-                                for (Robot robot : robots) {
-                                    if (robot.teamNumber == robotAtGame.robotNumber){
-                                        robot.addScore(robotAtGame.robotScore);
-                                        return;
-                                    }
-                                }
-                                Robot newRobot = new Robot("", robotAtGame.robotNumber);
-                                newRobot.addScore(robotAtGame.robotScore);
-                                robots.add(newRobot);
                             }
+                            Robot newRobot = new Robot("", robotAtGame.robotNumber);
+                            newRobot.addScore(robotAtGame.robotScore);
+                            robots.add(newRobot);
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
                         }
@@ -83,14 +87,23 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     private final ActivityResultLauncher<Intent> gamesActivity =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
-                        if (result.getResultCode() == RESULT_OK) {
-                            if (result.getData() != null) {
-                                ArrayList<Game> games = (ArrayList<Game>) result.getData().getSerializableExtra("games");
-                                if (games == null) {
-                                    return;
-                                }
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            ArrayList<Game> games = (ArrayList<Game>) result.getData().getSerializableExtra("games");
+                            if (games != null) {
                                 this.games = games;
-                                gameAdapter.notifyDataSetChanged();
+                            }
+                        } else if (result.getResultCode() == RESULT_CANCELED) {
+                            Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+    private final ActivityResultLauncher<Intent> showRobotsActivity =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            ArrayList<Robot> robots = (ArrayList<Robot>) result.getData().getSerializableExtra("robots");
+                            if (robots != null) {
+                                this.robots = robots;
                             }
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();

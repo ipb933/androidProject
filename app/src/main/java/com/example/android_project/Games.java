@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Games extends AppCompatActivity  implements View.OnClickListener{
     Button btnAddGame, btnBack;
-    RecyclerView lvGames;
+    RecyclerView rvGames;
 
     ArrayList<Game> games = new ArrayList<>();
     GameAdapter gameAdapter;
@@ -29,13 +29,13 @@ public class Games extends AppCompatActivity  implements View.OnClickListener{
         btnAddGame.setOnClickListener(this);
         btnBack = (Button) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(this);
-        lvGames  = findViewById(R.id.lvGames);
+        rvGames  = findViewById(R.id.rvGames);
         Intent intent = getIntent();
         games = (ArrayList<Game>) intent.getSerializableExtra("games");
-        games.add(new Game(1,2,3,4,5,6,7));
         gameAdapter = new GameAdapter(games);
-        lvGames.setAdapter(gameAdapter);
-        registerForContextMenu(lvGames);
+        rvGames.setAdapter(gameAdapter);
+        rvGames.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+        registerForContextMenu(rvGames);
     }
 
     @Override

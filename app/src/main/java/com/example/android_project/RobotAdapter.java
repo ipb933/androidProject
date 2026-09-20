@@ -1,36 +1,65 @@
 package com.example.android_project;
 
-import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-public class RobotAdapter extends ArrayAdapter<Robot> {
-    Context context;
-    ArrayList<Robot> objects;
-    public RobotAdapter(Context context, int resource, int textViewResourceId, ArrayList<Robot> objects) {
-        super(context, resource, textViewResourceId, objects);
-        this.context=context;
-        this.objects=objects;
+public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHolder> {
+
+    ArrayList<Robot> robots;
+
+    public RobotAdapter(ArrayList<Robot> robots) {
+        this.robots = robots;
+    }
+
+    @NonNull
+    @Override
+    public RobotViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_robot, parent, false);
+        return new RobotViewHolder(view);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        LayoutInflater layoutInflater = ((Activity)context).getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.single_robot,parent,false);
-        TextView tvTeamName = (TextView)view.findViewById(R.id.tvTeamName);
-        TextView tvRobotNumber = (TextView)view.findViewById(R.id.tvRobotNumber);
-        TextView tvRobotAverageScore = (TextView)view.findViewById(R.id.tvRobotAverageScore);
-        Robot temp = objects.get(position);
-        tvTeamName.setText(temp.getTeamName());
-        tvRobotNumber.setText(temp.getTeamNumber() + "");
-        tvRobotAverageScore.setText(temp.getAverageScore() + "");
-        return view;
+    public void onBindViewHolder(@NonNull RobotViewHolder holder, int position) {
+        Robot robot = robots.get(position);
+        holder.tvTeamName.setText(robot.getTeamName() == null || robot.getTeamName().isEmpty() ? "No Name" : robot.getTeamName());
+        holder.tvRobotNumber.setText(String.valueOf(robot.getTeamNumber()));
+        holder.tvRobotAverageScore.setText(String.format("%.2f", robot.getAverageScore()));
+
+        holder.itemView.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle("Enter Team Name");
+            final EditText input = new EditText(v.getContext());
+            input.setText(robot.getTeamName());
+            builder.setView(input);
+            builder.setPositiveButton("Save", (dialog, which) -> {
+                robot.setTeamName(input.getText().toString());
+                notifyItemChanged(position);
+            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+            builder.show();
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return robots.size();
+    }
+
+    static class RobotViewHolder extends RecyclerView.ViewHolder {
+        TextView tvTeamName, tvRobotNumber, tvRobotAverageScore;
+
+        public RobotViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvTeamName = itemView.findViewById(R.id.tvTeamName);
+            tvRobotNumber = itemView.findViewById(R.id.tvRobotNumber);
+            tvRobotAverageScore = itemView.findViewById(R.id.tvRobotAverageScore);
+        }
     }
 }
