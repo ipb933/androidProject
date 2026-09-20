@@ -13,6 +13,7 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
     Button btnBack;
     RecyclerView rvRobots;
     ArrayList<Robot> robots = new ArrayList<>();
+    ArrayList<RobotAtGame> robotsAtGame = new ArrayList<>();
     RobotAdapter robotAdapter;
 
     @Override
@@ -29,7 +30,11 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
             robots = (ArrayList<Robot>) getIntent().getSerializableExtra("robots");
         }
 
-        robotAdapter = new RobotAdapter(robots);
+        if (getIntent().getSerializableExtra("robotsAtGame") != null) {
+            robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame"); // <-- משיכת הנתונים
+        }
+
+        robotAdapter = new RobotAdapter(robots, robotsAtGame);
         rvRobots.setAdapter(robotAdapter);
     }
 

@@ -20,7 +20,7 @@
         android:background="#DF746D"
         />
     <EditText
-        android:id="@+id/etName"
+        android:id="@+id/etScouterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

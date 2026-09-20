@@ -22,10 +22,94 @@
         android:layout_margin="10dp"
         />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layoutDirection="ltr">
+
+        <TextView
+            android:id="@+id/tvGameNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="game#"/>
+
+        <TextView
+            android:id="@+id/tvBlue1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#1E88E5"
+            android:text="blue 1"/>
+
+        <TextView
+            android:id="@+id/tvBlue2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#1E88E5"
+            android:text="blue 2"/>
+
+        <TextView
+            android:id="@+id/tvBlue3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#1E88E5"
+            android:text="blue 3"/>
+
+        <TextView
+            android:id="@+id/tvRed1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#E53935"
+            android:text="red 1"/>
+
+        <TextView
+            android:id="@+id/tvRed2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#E53935"
+            android:text="red 2"/>
+
+        <TextView
+            android:id="@+id/tvRed3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#E53935"
+            android:text="red 3"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGames"
         android:layout_width="match_parent"
-        android:layout_height="500dp" />
+        android:layout_height="466dp" />
 
     <Button
         android:id="@+id/btnAddGame"

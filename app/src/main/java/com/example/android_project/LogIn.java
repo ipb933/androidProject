@@ -9,14 +9,14 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LogIn extends AppCompatActivity implements View.OnClickListener {
-    EditText etName;
+    EditText etScouterName;
     Button btnLogIn,btnQuit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-        etName = (EditText) findViewById(R.id.etName);
+        etScouterName = (EditText) findViewById(R.id.etScouterName);
         btnLogIn = (Button) findViewById(R.id.btnLogIn);
         btnLogIn.setOnClickListener(this);
         btnQuit = (Button) findViewById(R.id.btnQuit);
@@ -27,7 +27,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         if (view == btnLogIn) {
             Intent intent = new Intent(this, Home.class);
-            intent.putExtra("name", etName.getText());
+            intent.putExtra("scouterName", etScouterName.getText());
             startActivity(intent);
         }
         if (view == btnQuit) {

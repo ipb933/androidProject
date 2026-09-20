@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class AddRobotInGame extends AppCompatActivity implements View.OnClickListener{
-    EditText etGameNumber, etRobotNumber, etRobotScore;
+    String scouterName;
+
+    EditText etGameNumber, etRobotScore;
     Button btnSend, btnBack;
 
     AutoCompleteTextView actvRobotNumber;
@@ -30,6 +32,10 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
         btnSend.setOnClickListener(this);
         btnBack = (Button) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(this);
+
+        if (getIntent().getSerializableExtra("scouterName") != null) {
+            scouterName = (String) getIntent().getSerializableExtra("scouterName");
+        }
 
         if (getIntent().getSerializableExtra("games") != null) {
             games = (ArrayList<Game>) getIntent().getSerializableExtra("games");
@@ -110,7 +116,7 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
                 robotNumber = Integer.parseInt(inputText);
             }
 
-            RobotAtGame robotAtGame = new RobotAtGame(gameNumber, robotNumber, robotScore);
+            RobotAtGame robotAtGame = new RobotAtGame(gameNumber, robotNumber, robotScore, scouterName);
             Intent resultIntent = new Intent();
             resultIntent.putExtra("robotAtGame", robotAtGame);
             setResult(RESULT_OK, resultIntent);

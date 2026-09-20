@@ -6,13 +6,15 @@ public class RobotAtGame implements Serializable {
     int robotNumber;
     int gameNumber;
     int robotScore;
+    String scouterName;
 
     public RobotAtGame() {}
 
-    public RobotAtGame(int gameNumber, int robotNumber, int robotScore) {
+    public RobotAtGame(int gameNumber, int robotNumber, int robotScore, String scouterName) {
         this.gameNumber = gameNumber;
         this.robotNumber = robotNumber;
         this.robotScore = robotScore;
+        this.scouterName = scouterName;
     }
 
     public int getRobotNumber() {
@@ -37,5 +39,13 @@ public class RobotAtGame implements Serializable {
 
     public void setRobotScore(int robotScore) {
         this.robotScore = robotScore;
+    }
+
+    public String getScouterName() {
+        return scouterName;
+    }
+
+    public void setScouterName(String scouterName) {
+        this.scouterName = scouterName;
     }
 }

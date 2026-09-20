@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
-    String name;
+    String scouterName;
     Button btnAdd, btnShowRobots, btnShowGames;
     ArrayList<Robot> robots = new ArrayList<>();
     ArrayList<RobotAtGame> robotsAtGame = new ArrayList<>();
@@ -34,8 +34,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         btnShowGames = (Button) findViewById(R.id.btnGames);
         btnShowGames.setOnClickListener(this);
 
-        if (getIntent().getSerializableExtra("name") != null) {
-            name = (String) getIntent().getSerializableExtra("name");
+        if (getIntent().getSerializableExtra("scouterName") != null) {
+            scouterName = (String) getIntent().getSerializableExtra("scouterName");
         }
     }
 
@@ -43,6 +43,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View view) {
         if (view == btnAdd) {
             Intent intent = new Intent(this, AddRobotInGame.class);
+            intent.putExtra("scouterName", scouterName);
             intent.putExtra("games", games);
             intent.putExtra("robots", robots);
             addRobot.launch(intent);
@@ -50,6 +51,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         if (view == btnShowRobots) {
             Intent intent = new Intent(this, ShowRobots.class);
             intent.putExtra("robots", robots);
+            intent.putExtra("robotAtGames", robotsAtGame);
             showRobotsActivity.launch(intent);
         }
         if (view == btnShowGames) {
@@ -89,8 +91,28 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                             ArrayList<Game> games = (ArrayList<Game>) result.getData().getSerializableExtra("games");
+
                             if (games != null) {
                                 this.games = games;
+                            }
+
+                            for (Game game : games) {
+                                int[] teamsInGame = {game.getBlue1Number(), game.getBlue2Number(), game.getBlue3Number(),
+                                        game.getRed1Number(), game.getRed2Number(), game.getRed3Number()};
+
+                                for (int teamNum : teamsInGame) {
+                                    boolean exists = false;
+                                    for (Robot robot : robots) {
+                                        if (robot.getTeamNumber() == teamNum) {
+                                            exists = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!exists) {
+                                        Robot robot = new Robot("", teamNum);
+                                        robots.add(robot);
+                                    }
+                                }
                             }
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
