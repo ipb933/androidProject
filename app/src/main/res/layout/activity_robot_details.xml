@@ -73,7 +73,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRobotGames"
         android:layout_width="match_parent"
-        android:layout_height="299dp" />
+        android:layout_height="214dp" />
 
     <Button
         android:id="@+id/btnBack"
