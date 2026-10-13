@@ -25,7 +25,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRobots"
         android:layout_width="match_parent"
-        android:layout_height="500dp" />
+        android:layout_height="445dp" />
+
+    <Button
+        android:id="@+id/btnAddRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="add robot (without games)"
+        android:layout_margin="10dp"
+        />
 
     <Button
         android:id="@+id/btnBack"
