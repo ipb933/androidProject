@@ -51,10 +51,30 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
             builder.setView(input);
             builder.setPositiveButton("Save", (dialog, which) -> {
                 robot.setTeamName(input.getText().toString());
-                notifyItemChanged(position);
+                notifyItemChanged(holder.getBindingAdapterPosition());
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
+        });
+
+        holder.btnDelete.setOnClickListener(v -> {
+            int pos = holder.getBindingAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                Robot robotToDelete = robots.get(pos);
+
+                robots.remove(pos);
+
+                if (robotsAtGame != null) {
+                    for (int i = robotsAtGame.size() - 1; i >= 0; i--) {
+                        if (robotsAtGame.get(i).getRobotNumber() == robotToDelete.getTeamNumber()) {
+                            robotsAtGame.remove(i);
+                        }
+                    }
+                }
+
+                notifyItemRemoved(pos);
+                notifyItemRangeChanged(pos, robots.size());
+            }
         });
 
         holder.itemView.setOnClickListener(v -> {
@@ -81,13 +101,14 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
     }
 
     static class RobotViewHolder extends RecyclerView.ViewHolder {
-        ImageButton btnEditName;
+        ImageButton btnEditName, btnDelete;
 
         TextView tvTeamName, tvRobotNumber, tvRobotAverageScore;
 
         public RobotViewHolder(@NonNull View itemView) {
             super(itemView);
             btnEditName = itemView.findViewById(R.id.btnEditName);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
             tvTeamName = itemView.findViewById(R.id.tvTeamName);
             tvRobotNumber = itemView.findViewById(R.id.tvRobotNumber);
             tvRobotAverageScore = itemView.findViewById(R.id.tvRobotAverageScore);

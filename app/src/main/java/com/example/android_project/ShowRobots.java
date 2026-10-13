@@ -31,7 +31,7 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
         }
 
         if (getIntent().getSerializableExtra("robotsAtGame") != null) {
-            robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame"); // <-- משיכת הנתונים
+            robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame");
         }
 
         robotAdapter = new RobotAdapter(robots, robotsAtGame);

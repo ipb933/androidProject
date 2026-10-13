@@ -27,8 +27,6 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
 
     int currentRobotNumber;
     ArrayList<RobotAtGame> robotAtGames;
-    ArrayList<RobotAtGame> filteredGames = new ArrayList<>();
-
     StorageReference storageReference;
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(
@@ -62,16 +60,8 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
 
         btnAddPhoto.setOnClickListener(v -> mGetContent.launch("image/*"));
 
-        if (robotAtGames != null) {
-            for (RobotAtGame robotAtGame : robotAtGames) {
-                if (robotAtGame.getRobotNumber() == currentRobotNumber) {
-                    filteredGames.add(robotAtGame);
-                }
-            }
-        }
-
         rvRobotGames.setLayoutManager(new LinearLayoutManager(this));
-        RobotAtGamesAdapter adapter = new RobotAtGamesAdapter(filteredGames);
+        RobotAtGamesAdapter adapter = new RobotAtGamesAdapter(robotAtGames);
         rvRobotGames.setAdapter(adapter);
     }
 
