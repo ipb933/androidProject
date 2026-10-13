@@ -56,14 +56,17 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             builder.setTitle("Enter Team Number and Name");
             final EditText numberInput = new EditText(view.getContext());
+            numberInput.setHint("team number");
             final EditText nameInput = new EditText(view.getContext());
+            nameInput.setHint("team name");
             final LinearLayout linearLayout = new LinearLayout(view.getContext());
             linearLayout.setOrientation(LinearLayout.VERTICAL);
-            linearLayout.addView(numberInput);
             linearLayout.addView(nameInput);
+            linearLayout.addView(numberInput);
             builder.setView(linearLayout);
             builder.setPositiveButton("Save", (dialog, which) -> {
                 robots.add(new Robot(nameInput.getText().toString(), Integer.parseInt(numberInput.getText().toString())));
+                robotAdapter.notifyDataSetChanged();
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
