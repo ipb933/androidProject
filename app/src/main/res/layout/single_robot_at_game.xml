@@ -6,31 +6,48 @@
     android:padding="8dp"
     android:layoutDirection="ltr">
 
-    <TextView
-        android:id="@+id/tvGameNumber"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:text="game number" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvScouterName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:text="scouter" />
+        <TextView
+            android:id="@+id/tvGameNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="game number: "
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvRobotScore"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:text="robot score" />
+        <TextView
+            android:id="@+id/tvScouterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="scouter: "
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/tvRobotScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="robot score: "
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnEditName"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:src="@android:drawable/ic_menu_edit"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+    <ImageButton
+        android:id="@+id/btnDelete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:src="@android:drawable/ic_menu_delete"
+        android:background="?attr/selectableItemBackgroundBorderless" />
 </LinearLayout>

@@ -27,7 +27,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         if (view == btnLogIn) {
             Intent intent = new Intent(this, Home.class);
-            intent.putExtra("scouterName", etScouterName.getText());
+            intent.putExtra("scouterName", etScouterName.getText().toString());
             startActivity(intent);
         }
         if (view == btnQuit) {

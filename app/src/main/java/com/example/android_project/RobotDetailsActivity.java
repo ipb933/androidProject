@@ -84,6 +84,9 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view == btnBack) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("robotAtGames", robotAtGames);
+            setResult(RESULT_OK, resultIntent);
             finish();
         }
     }

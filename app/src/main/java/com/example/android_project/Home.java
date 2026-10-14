@@ -51,7 +51,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         if (view == btnShowRobots) {
             Intent intent = new Intent(this, ShowRobots.class);
             intent.putExtra("robots", robots);
-            intent.putExtra("robotAtGames", robotsAtGame);
+            intent.putExtra("robotsAtGame", robotsAtGame);
             showRobotsActivity.launch(intent);
         }
         if (view == btnShowGames) {

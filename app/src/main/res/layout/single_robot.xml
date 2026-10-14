@@ -15,7 +15,7 @@
             android:id="@+id/tvRobotNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Team: 1577"
+            android:text="Team: "
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -23,14 +23,14 @@
             android:id="@+id/tvTeamName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name: Steampunk"
+            android:text="Name: "
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvRobotAverageScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Avg Score: 45.5"
+            android:text="Avg Score: "
             android:textSize="16sp" />
     </LinearLayout>
 
