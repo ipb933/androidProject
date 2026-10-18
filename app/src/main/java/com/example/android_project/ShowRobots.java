@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +43,7 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
             robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame");
         }
 
-        robotAdapter = new RobotAdapter(robots, robotsAtGame);
+        robotAdapter = new RobotAdapter(robots, robotsAtGame, RobotDetailsActivity);
         rvRobots.setAdapter(robotAdapter);
     }
 
@@ -73,4 +75,19 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
             builder.show();
         }
     }
+
+    private final ActivityResultLauncher<Intent> RobotDetailsActivity =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                            ArrayList<RobotAtGame> robotsAtGame = (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
+                            if (robotsAtGame != null) {
+                                this.robotsAtGame = robotsAtGame;
+                                robotAdapter.notifyDataSetChanged();
+                                Toast.makeText(this, this.robotsAtGame.get(0).robotScore + "", Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (result.getResultCode() == RESULT_CANCELED) {
+                            Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 }

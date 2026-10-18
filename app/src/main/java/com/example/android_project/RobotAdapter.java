@@ -1,5 +1,9 @@
 package com.example.android_project;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -18,10 +24,12 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
 
     ArrayList<Robot> robots;
     ArrayList<RobotAtGame> robotsAtGame;
+    ActivityResultLauncher<Intent> RobotDetailsActivity;
 
-    public RobotAdapter(ArrayList<Robot> robots, ArrayList<RobotAtGame> robotAtGames) {
+    public RobotAdapter(ArrayList<Robot> robots, ArrayList<RobotAtGame> robotAtGames, ActivityResultLauncher<Intent> RobotDetailsActivity) {
         this.robots = robots;
         this.robotsAtGame = robotAtGames;
+        this.RobotDetailsActivity = RobotDetailsActivity;
     }
 
     @NonNull
@@ -83,17 +91,17 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
             Intent intent = new Intent(v.getContext(), RobotDetailsActivity.class);
             intent.putExtra("robotNumber", robot.getTeamNumber());
 
-            ArrayList<RobotAtGame> robotAtGames = new ArrayList<>();
-            if (robotsAtGame != null) {
-                for (RobotAtGame game : robotsAtGame) {
-                    if (game.getRobotNumber() == robot.getTeamNumber()) {
-                        robotAtGames.add(game);
-                    }
-                }
-            }
+//            ArrayList<RobotAtGame> robotAtGames = new ArrayList<>();
+//            if (robotsAtGame != null) {
+//                for (RobotAtGame game : robotsAtGame) {
+//                    if (game.getRobotNumber() == robot.getTeamNumber()) {
+//                        robotAtGames.add(game);
+//                    }
+//                }
+//            }
 
-            intent.putExtra("robotAtGames", robotAtGames);
-            v.getContext().startActivity(intent);
+            intent.putExtra("robotsAtGame", robotsAtGame);
+            RobotDetailsActivity.launch(intent);
         });
     }
 

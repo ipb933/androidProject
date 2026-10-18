@@ -26,7 +26,7 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
     Button btnBack;
 
     int currentRobotNumber;
-    ArrayList<RobotAtGame> robotAtGames;
+    ArrayList<RobotAtGame> robotsAtGame;
     StorageReference storageReference;
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(
@@ -53,7 +53,7 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
         storageReference = FirebaseStorage.getInstance().getReference("RobotImages");
 
         currentRobotNumber = getIntent().getIntExtra("robotNumber", 0);
-        robotAtGames = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotAtGames");
+        robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame");
 
         tvDetailsTitle.setText("Team " + currentRobotNumber + " History");
         loadRobotImage();
@@ -61,7 +61,7 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
         btnAddPhoto.setOnClickListener(v -> mGetContent.launch("image/*"));
 
         rvRobotGames.setLayoutManager(new LinearLayoutManager(this));
-        RobotAtGamesAdapter adapter = new RobotAtGamesAdapter(robotAtGames);
+        RobotAtGamesAdapter adapter = new RobotAtGamesAdapter(robotsAtGame);
         rvRobotGames.setAdapter(adapter);
     }
 
@@ -85,7 +85,7 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         if (view == btnBack) {
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("robotAtGames", robotAtGames);
+            resultIntent.putExtra("robotsAtGame", robotsAtGame);
             setResult(RESULT_OK, resultIntent);
             finish();
         }
