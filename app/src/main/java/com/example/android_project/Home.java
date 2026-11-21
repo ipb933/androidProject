@@ -73,13 +73,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                             robotsAdapter.notifyDataSetChanged();
 
                             for (Robot robot : robots) {
-                                if (robot.teamNumber == robotAtGame.robotNumber){
-                                    robot.addScore(robotAtGame.robotScore);
+                                if (robot.getTeamNumber() == robotAtGame.getRobotNumber()) {
+                                    robot.addScore(robotAtGame.getRobotScore());
                                     return;
                                 }
                             }
-                            Robot newRobot = new Robot("", robotAtGame.robotNumber);
-                            newRobot.addScore(robotAtGame.robotScore);
+
+                            Robot newRobot = new Robot("", robotAtGame.getRobotNumber());
+                            newRobot.addScore(robotAtGame.getRobotScore());
                             robots.add(newRobot);
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
@@ -121,8 +122,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            ArrayList<Robot> returnedRobots = (ArrayList<Robot>) result.getData().getSerializableExtra("robots");
-                            ArrayList<RobotAtGame> returnedRobotsAtGame = (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
+                            ArrayList<Robot> returnedRobots =
+                                    (ArrayList<Robot>) result.getData().getSerializableExtra("robots");
+                            ArrayList<RobotAtGame> returnedRobotsAtGame =
+                                    (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
                             if (returnedRobots != null) {
                                 this.robots = returnedRobots;
                             }

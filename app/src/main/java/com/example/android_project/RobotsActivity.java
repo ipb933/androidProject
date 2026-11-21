@@ -94,13 +94,36 @@ public class RobotsActivity extends AppCompatActivity implements View.OnClickLis
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                             ArrayList<RobotAtGame> updatedList =
                                     (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
-                            if (updatedList != null) {
-                                this.robotsAtGame = updatedList;
-                                robotAdapter.notifyDataSetChanged();
-                                if (!this.robotsAtGame.isEmpty()) {
-                                    Toast.makeText(this, "Last score: " + this.robotsAtGame.get(this.robotsAtGame.size() - 1).getRobotScore(), Toast.LENGTH_SHORT).show();
+                            Robot updatedRobot =
+                                    (Robot) result.getData().getSerializableExtra("robot");
+                            int targetRobotNumber = result.getData().getIntExtra("robotNumber", -1);
+
+                            if (updatedRobot != null) {
+                                if (targetRobotNumber == -1) {
+                                    targetRobotNumber = updatedRobot.getTeamNumber();
+                                }
+                                for (int i = 0; i < robots.size(); i++) {
+                                    if (robots.get(i).getTeamNumber() == updatedRobot.getTeamNumber()) {
+                                        robots.set(i, updatedRobot);
+                                        break;
+                                    }
                                 }
                             }
+
+                            if (updatedList != null && targetRobotNumber != -1) {
+                                for (int i = robotsAtGame.size() - 1; i >= 0; i--) {
+                                    if (robotsAtGame.get(i).getRobotNumber() == targetRobotNumber) {
+                                        robotsAtGame.remove(i);
+                                    }
+                                }
+                                robotsAtGame.addAll(updatedList);
+                                if (!updatedList.isEmpty()) {
+                                    int lastScore = updatedList.get(updatedList.size() - 1).getRobotScore();
+                                    Toast.makeText(this, "Last score: " + lastScore, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            robotAdapter.notifyDataSetChanged();
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
                         }

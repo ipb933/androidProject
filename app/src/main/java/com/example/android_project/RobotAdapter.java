@@ -86,6 +86,7 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), RobotDetailsActivity.class);
             intent.putExtra("robotNumber", robot.getTeamNumber());
+            intent.putExtra("robot", robot);
 
             ArrayList<RobotAtGame> filteredGames = new ArrayList<>();
             if (robotsAtGame != null) {

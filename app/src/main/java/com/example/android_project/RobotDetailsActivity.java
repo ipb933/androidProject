@@ -26,7 +26,9 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
     Button btnBack;
 
     int currentRobotNumber;
+    Robot currentRobot;
     ArrayList<RobotAtGame> robotsAtGame;
+    RobotAtGamesAdapter gamesAdapter;
     StorageReference storageReference;
 
     ActivityResultLauncher<String> mGetContent = registerForActivityResult(
@@ -53,7 +55,14 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
         storageReference = FirebaseStorage.getInstance().getReference("RobotImages");
 
         currentRobotNumber = getIntent().getIntExtra("robotNumber", 0);
+        currentRobot = (Robot) getIntent().getSerializableExtra("robot");
         robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame");
+        if (robotsAtGame == null) {
+            robotsAtGame = new ArrayList<>();
+        }
+        if (currentRobot == null) {
+            currentRobot = new Robot("", currentRobotNumber);
+        }
 
         tvDetailsTitle.setText("Team " + currentRobotNumber + " History");
         loadRobotImage();
@@ -61,8 +70,8 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
         btnAddPhoto.setOnClickListener(v -> mGetContent.launch("image/*"));
 
         rvRobotGames.setLayoutManager(new LinearLayoutManager(this));
-        RobotAtGamesAdapter adapter = new RobotAtGamesAdapter(robotsAtGame);
-        rvRobotGames.setAdapter(adapter);
+        gamesAdapter = new RobotAtGamesAdapter(robotsAtGame, currentRobot);
+        rvRobotGames.setAdapter(gamesAdapter);
     }
 
     private void uploadImageToFirebase(Uri imageUri) {
@@ -81,11 +90,23 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
+    private void onGameScoreEdited(RobotAtGame gameItem, int oldScore, int newScore) {
+        gameItem.setRobotScore(newScore);
+        if (currentRobot != null) {
+            currentRobot.updateScore(oldScore, newScore);
+        }
+        if (gamesAdapter != null) {
+            gamesAdapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onClick(View view) {
         if (view == btnBack) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra("robotsAtGame", robotsAtGame);
+            resultIntent.putExtra("robot", currentRobot);
+            resultIntent.putExtra("robotNumber", currentRobotNumber);
             setResult(RESULT_OK, resultIntent);
             finish();
         }

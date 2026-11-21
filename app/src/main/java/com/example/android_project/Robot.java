@@ -46,4 +46,24 @@ public class Robot implements Serializable {
         averageScore = (averageScore*gamesPlayed + score)/(gamesPlayed + 1);
         gamesPlayed++;
     }
+
+    public void updateScore(double oldScore, double newScore) {
+        if (gamesPlayed <= 0) {
+            addScore(newScore);
+            return;
+        }
+        double totalScore = averageScore * gamesPlayed - oldScore + newScore;
+        averageScore = totalScore / gamesPlayed;
+    }
+
+    public void removeScore(double score) {
+        if (this.gamesPlayed <= 1) {
+            this.averageScore = 0;
+            this.gamesPlayed = 0;
+            return;
+        }
+        double totalScore = this.averageScore * this.gamesPlayed - score;
+        this.gamesPlayed--;
+        this.averageScore = totalScore / this.gamesPlayed;
+    }
 }

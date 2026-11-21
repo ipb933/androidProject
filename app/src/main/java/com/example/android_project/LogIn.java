@@ -18,8 +18,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
 
     private final HashMap<String, String> accounts = new HashMap<>();
 
-    private final ArrayList<String> registeredScouters = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,22 +28,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
         btnLogIn.setOnClickListener(this);
         btnQuit = findViewById(R.id.btnQuit);
         btnQuit.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == btnLogIn) {
-            String name = etScouterName.getText().toString().trim();
-            String password = etPassword.getText().toString();
-            if (name.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter name and password", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            loginOrCreateAccount(name, password);
-        }
-        if (view == btnQuit) {
-            finish();
-        }
     }
 
     private String findExistingKey(String name) {
@@ -75,24 +57,19 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    private boolean isUserExists(String name) {
-        for (String existing : registeredScouters) {
-            if (existing.equalsIgnoreCase(name)) {
-                return true;
+    @Override
+    public void onClick(View view) {
+        if (view == btnLogIn) {
+            String name = etScouterName.getText().toString().trim();
+            String password = etPassword.getText().toString();
+            if (name.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please enter name and password", Toast.LENGTH_SHORT).show();
+                return;
             }
+            loginOrCreateAccount(name, password);
         }
-        return false;
-    }
-
-    private void loginOrCreateAccount(String scouterName) {
-        if (!isUserExists(scouterName)) {
-            registeredScouters.add(scouterName);
-            Toast.makeText(this, "Account created for " + scouterName, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Welcome back, " + scouterName, Toast.LENGTH_SHORT).show();
+        if (view == btnQuit) {
+            finish();
         }
-        Intent intent = new Intent(this, Home.class);
-        intent.putExtra("scouterName", scouterName);
-        startActivity(intent);
     }
 }

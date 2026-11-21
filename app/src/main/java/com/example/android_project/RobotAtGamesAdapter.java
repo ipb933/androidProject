@@ -14,9 +14,11 @@ import java.util.ArrayList;
 public class RobotAtGamesAdapter extends RecyclerView.Adapter<RobotAtGamesAdapter.ViewHolder> {
 
     ArrayList<RobotAtGame> robotAtGames;
+    Robot currentRobot;
 
-    public RobotAtGamesAdapter(ArrayList<RobotAtGame> robotAtGames) {
-        this.robotAtGames = robotAtGames;
+    public RobotAtGamesAdapter(ArrayList<RobotAtGame> robotAtGames, Robot currentRobot) {
+        this.robotAtGames = robotAtGames != null ? robotAtGames : new ArrayList<>();
+        this.currentRobot = currentRobot;
     }
 
     @NonNull
@@ -34,15 +36,38 @@ public class RobotAtGamesAdapter extends RecyclerView.Adapter<RobotAtGamesAdapte
         holder.tvRobotScore.setText("robot score: " + robotAtGame.getRobotScore());
 
         holder.btnEditName.setOnClickListener(v -> {
+            int pos = holder.getBindingAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION) {
+                return;
+            }
+            RobotAtGame targetItem = robotAtGames.get(pos);
+
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setTitle("Enter robot score");
             final EditText input = new EditText(v.getContext());
-            input.setText(robotAtGame.getRobotScore() + "");
+            input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+            input.setText(String.valueOf(targetItem.getRobotScore()));
             builder.setView(input);
+
             builder.setPositiveButton("Save", (dialog, which) -> {
-                robotAtGame.setRobotScore(Integer.parseInt(input.getText().toString()));
-                notifyItemChanged(holder.getBindingAdapterPosition());
+                String scoreStr = input.getText().toString().trim();
+                if (scoreStr.isEmpty()) {
+                    android.widget.Toast.makeText(v.getContext(), "Please enter a score", android.widget.Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    int newScore = Integer.parseInt(scoreStr);
+                    int oldScore = targetItem.getRobotScore();
+                    targetItem.setRobotScore(newScore);
+                    if (currentRobot != null) {
+                        currentRobot.updateScore(oldScore, newScore);
+                    }
+                    notifyItemChanged(pos);
+                } catch (NumberFormatException e) {
+                    android.widget.Toast.makeText(v.getContext(), "Invalid score", android.widget.Toast.LENGTH_SHORT).show();
+                }
             });
+
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
         });
@@ -50,9 +75,10 @@ public class RobotAtGamesAdapter extends RecyclerView.Adapter<RobotAtGamesAdapte
         holder.btnDelete.setOnClickListener(v -> {
             int pos = holder.getBindingAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
-
-                robotAtGames.remove(pos);
-
+                RobotAtGame removedItem = robotAtGames.remove(pos);
+                if (currentRobot != null) {
+                    currentRobot.removeScore(removedItem.getRobotScore());
+                }
                 notifyItemRemoved(pos);
                 notifyItemRangeChanged(pos, robotAtGames.size());
             }
@@ -61,7 +87,7 @@ public class RobotAtGamesAdapter extends RecyclerView.Adapter<RobotAtGamesAdapte
 
     @Override
     public int getItemCount() {
-        return robotAtGames.size();
+        return robotAtGames == null ? 0 : robotAtGames.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
