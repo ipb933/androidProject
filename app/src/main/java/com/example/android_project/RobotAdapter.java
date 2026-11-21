@@ -20,12 +20,12 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
 
     ArrayList<Robot> robots;
     ArrayList<RobotAtGame> robotsAtGame;
-    ActivityResultLauncher<Intent> RobotDetailsActivity;
+    ActivityResultLauncher<Intent> robotDetailsLauncher;
 
-    public RobotAdapter(ArrayList<Robot> robots, ArrayList<RobotAtGame> robotAtGames, ActivityResultLauncher<Intent> RobotDetailsActivity) {
+    public RobotAdapter(ArrayList<Robot> robots, ArrayList<RobotAtGame> robotAtGames, ActivityResultLauncher<Intent> robotDetailsLauncher) {
         this.robots = robots;
         this.robotsAtGame = robotAtGames;
-        this.RobotDetailsActivity = RobotDetailsActivity;
+        this.robotDetailsLauncher = robotDetailsLauncher;
     }
 
     @NonNull
@@ -96,7 +96,7 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
                 }
             }
             intent.putExtra("robotsAtGame", filteredGames);
-            com.example.android_project.RobotDetailsActivity.launch(intent);
+            robotDetailsLauncher.launch(intent);
         });
     }
 
