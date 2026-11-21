@@ -38,7 +38,7 @@ public class Robot implements Serializable {
         return averageScore;
     }
 
-    public double getGamesPlayed() {
+    public int getGamesPlayed() {
         return gamesPlayed;
     }
 

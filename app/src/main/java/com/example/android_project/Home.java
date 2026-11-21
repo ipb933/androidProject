@@ -49,13 +49,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             addRobot.launch(intent);
         }
         if (view == btnShowRobots) {
-            Intent intent = new Intent(this, ShowRobots.class);
+            Intent intent = new Intent(this, RobotsActivity.class);
             intent.putExtra("robots", robots);
             intent.putExtra("robotsAtGame", robotsAtGame);
             showRobotsActivity.launch(intent);
         }
         if (view == btnShowGames) {
-            Intent intent = new Intent(this, Games.class);
+            Intent intent = new Intent(this, GamesActivity.class);
             intent.putExtra("games", games);
             gamesActivity.launch(intent);
         }
@@ -90,27 +90,25 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            ArrayList<Game> games = (ArrayList<Game>) result.getData().getSerializableExtra("games");
-
-                            if (games != null) {
-                                this.games = games;
-                            }
-
-                            for (Game game : games) {
-                                int[] teamsInGame = {game.getBlue1Number(), game.getBlue2Number(), game.getBlue3Number(),
-                                        game.getRed1Number(), game.getRed2Number(), game.getRed3Number()};
-
-                                for (int teamNum : teamsInGame) {
-                                    boolean exists = false;
-                                    for (Robot robot : robots) {
-                                        if (robot.getTeamNumber() == teamNum) {
-                                            exists = true;
-                                            break;
+                            ArrayList<Game> returnedGames = (ArrayList<Game>) result.getData().getSerializableExtra("games");
+                            if (returnedGames != null) {
+                                this.games = returnedGames;
+                                for (Game game : this.games) {
+                                    int[] teamsInGame = {
+                                            game.getBlue1Number(), game.getBlue2Number(), game.getBlue3Number(),
+                                            game.getRed1Number(), game.getRed2Number(), game.getRed3Number()
+                                    };
+                                    for (int teamNum : teamsInGame) {
+                                        boolean exists = false;
+                                        for (Robot robot : robots) {
+                                            if (robot.getTeamNumber() == teamNum) {
+                                                exists = true;
+                                                break;
+                                            }
                                         }
-                                    }
-                                    if (!exists) {
-                                        Robot robot = new Robot("", teamNum);
-                                        robots.add(robot);
+                                        if (!exists) {
+                                            robots.add(new Robot("", teamNum));
+                                        }
                                     }
                                 }
                             }
@@ -123,9 +121,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            ArrayList<Robot> robots = (ArrayList<Robot>) result.getData().getSerializableExtra("robots");
-                            if (robots != null) {
-                                this.robots = robots;
+                            ArrayList<Robot> returnedRobots = (ArrayList<Robot>) result.getData().getSerializableExtra("robots");
+                            ArrayList<RobotAtGame> returnedRobotsAtGame = (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
+                            if (returnedRobots != null) {
+                                this.robots = returnedRobots;
+                            }
+                            if (returnedRobotsAtGame != null) {
+                                this.robotsAtGame = returnedRobotsAtGame;
                             }
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();

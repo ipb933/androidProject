@@ -1,7 +1,5 @@
 package com.example.android_project;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
 import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
 
 import android.app.AlertDialog;
@@ -12,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -91,17 +87,16 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
             Intent intent = new Intent(v.getContext(), RobotDetailsActivity.class);
             intent.putExtra("robotNumber", robot.getTeamNumber());
 
-//            ArrayList<RobotAtGame> robotAtGames = new ArrayList<>();
-//            if (robotsAtGame != null) {
-//                for (RobotAtGame game : robotsAtGame) {
-//                    if (game.getRobotNumber() == robot.getTeamNumber()) {
-//                        robotAtGames.add(game);
-//                    }
-//                }
-//            }
-
-            intent.putExtra("robotsAtGame", robotsAtGame);
-            RobotDetailsActivity.launch(intent);
+            ArrayList<RobotAtGame> filteredGames = new ArrayList<>();
+            if (robotsAtGame != null) {
+                for (RobotAtGame entry : robotsAtGame) {
+                    if (entry.getRobotNumber() == robot.getTeamNumber()) {
+                        filteredGames.add(entry);
+                    }
+                }
+            }
+            intent.putExtra("robotsAtGame", filteredGames);
+            com.example.android_project.RobotDetailsActivity.launch(intent);
         });
     }
 

@@ -16,10 +16,10 @@
             android:name=".AddGame"
             android:exported="false" />
         <activity
-            android:name=".Games"
+            android:name=".GamesActivity"
             android:exported="false" />
         <activity
-            android:name=".ShowRobots"
+            android:name=".RobotsActivity"
             android:exported="false" />
         <activity
             android:name=".ShowGames"

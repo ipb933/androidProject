@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-public class ShowRobots extends AppCompatActivity implements View.OnClickListener {
+public class RobotsActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnBack, btnAddRobot;
     RecyclerView rvRobots;
     ArrayList<Robot> robots = new ArrayList<>();
@@ -43,7 +43,7 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
             robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame");
         }
 
-        robotAdapter = new RobotAdapter(robots, robotsAtGame, RobotDetailsActivity);
+        robotAdapter = new RobotAdapter(robots, robotsAtGame, robotDetailsLauncher);
         rvRobots.setAdapter(robotAdapter);
     }
 
@@ -52,6 +52,7 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
         if (view == btnBack) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra("robots", robots);
+            resultIntent.putExtra("robotsAtGame", robotsAtGame);
             setResult(RESULT_OK, resultIntent);
             finish();
         }
@@ -68,23 +69,37 @@ public class ShowRobots extends AppCompatActivity implements View.OnClickListene
             linearLayout.addView(numberInput);
             builder.setView(linearLayout);
             builder.setPositiveButton("Save", (dialog, which) -> {
-                robots.add(new Robot(nameInput.getText().toString(), Integer.parseInt(numberInput.getText().toString())));
-                robotAdapter.notifyDataSetChanged();
+                String name = nameInput.getText().toString().trim();
+                String numStr = numberInput.getText().toString().trim();
+                if (numStr.isEmpty()) {
+                    Toast.makeText(view.getContext(), "Please enter team number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    int teamNum = Integer.parseInt(numStr);
+                    robots.add(new Robot(name, teamNum));
+                    robotAdapter.notifyDataSetChanged();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(view.getContext(), "Invalid team number", Toast.LENGTH_SHORT).show();
+                }
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
         }
     }
 
-    private final ActivityResultLauncher<Intent> RobotDetailsActivity =
+    private final ActivityResultLauncher<Intent> robotDetailsLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            ArrayList<RobotAtGame> robotsAtGame = (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
-                            if (robotsAtGame != null) {
-                                this.robotsAtGame = robotsAtGame;
+                            ArrayList<RobotAtGame> updatedList =
+                                    (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
+                            if (updatedList != null) {
+                                this.robotsAtGame = updatedList;
                                 robotAdapter.notifyDataSetChanged();
-                                Toast.makeText(this, this.robotsAtGame.get(0).robotScore + "", Toast.LENGTH_SHORT).show();
+                                if (!this.robotsAtGame.isEmpty()) {
+                                    Toast.makeText(this, "Last score: " + this.robotsAtGame.get(this.robotsAtGame.size() - 1).getRobotScore(), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();

@@ -10,7 +10,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:background="#E3A977"
-    tools:context=".ShowRobots">
+    tools:context=".RobotsActivity">
 
     <TextView
         android:layout_width="wrap_content"

@@ -9,11 +9,12 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Games extends AppCompatActivity  implements View.OnClickListener{
+public class GamesActivity extends AppCompatActivity  implements View.OnClickListener{
     Button btnAddGame, btnBack;
     RecyclerView rvGames;
 
@@ -34,7 +35,7 @@ public class Games extends AppCompatActivity  implements View.OnClickListener{
         games = (ArrayList<Game>) intent.getSerializableExtra("games");
         gameAdapter = new GameAdapter(games);
         rvGames.setAdapter(gameAdapter);
-        rvGames.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+        rvGames.setLayoutManager(new LinearLayoutManager(this));
         registerForContextMenu(rvGames);
     }
 

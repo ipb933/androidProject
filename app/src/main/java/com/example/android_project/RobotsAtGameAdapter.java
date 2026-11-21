@@ -20,17 +20,16 @@ public class RobotsAtGameAdapter extends ArrayAdapter<RobotAtGame> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        LayoutInflater layoutInflater = ((Activity)context).getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.single_robot_at_game,parent,false);
-        TextView tvGameNumber = (TextView)view.findViewById(R.id.tvGameNumber);
-//        TextView tvRobotNumber = (TextView)view.findViewById(R.id.tvRobotNumber);
-        TextView tvRobotScore = (TextView)view.findViewById(R.id.tvRobotScore);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater layoutInflater = ((Activity) context).getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.single_robot_at_game, parent, false);
+
+        TextView tvGameNumber = view.findViewById(R.id.tvGameNumber);
+        TextView tvRobotScore = view.findViewById(R.id.tvRobotScore);
+
         RobotAtGame temp = objects.get(position);
-        tvGameNumber.setText(temp.getGameNumber());
-//        tvRobotNumber.setText(temp.getRobotNumber());
-        tvRobotScore.setText(temp.getRobotScore());
+        tvGameNumber.setText("Game: " + temp.getGameNumber());
+        tvRobotScore.setText("Score: " + temp.getRobotScore());
         return view;
     }
 }

@@ -2,7 +2,10 @@ package com.example.android_project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +48,7 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
             robots = (ArrayList<Robot>) getIntent().getSerializableExtra("robots");
         }
 
-        etGameNumber.addTextChangedListener(new android.text.TextWatcher() {
+        etGameNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -53,7 +56,7 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
-            public void afterTextChanged(android.text.Editable s) {
+            public void afterTextChanged(Editable s) {
                 updateRobotSuggestions(s.toString());
             }
         });
@@ -71,18 +74,22 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
         boolean gameFound = false;
 
         if (!gameNumStr.isEmpty()) {
-            int gameNum = Integer.parseInt(gameNumStr);
-            for (Game g : games) {
-                if (g.getGameNumber() == gameNum) {
-                    gameFound = true;
-                    suggestions.add("Blue 1: " + g.getBlue1Number());
-                    suggestions.add("Blue 2: " + g.getBlue2Number());
-                    suggestions.add("Blue 3: " + g.getBlue3Number());
-                    suggestions.add("Red 1: " + g.getRed1Number());
-                    suggestions.add("Red 2: " + g.getRed2Number());
-                    suggestions.add("Red 3: " + g.getRed3Number());
-                    break;
+            try {
+                int gameNum = Integer.parseInt(gameNumStr);
+                for (Game g : games) {
+                    if (g.getGameNumber() == gameNum) {
+                        gameFound = true;
+                        suggestions.add("Blue 1: " + g.getBlue1Number());
+                        suggestions.add("Blue 2: " + g.getBlue2Number());
+                        suggestions.add("Blue 3: " + g.getBlue3Number());
+                        suggestions.add("Red 1: " + g.getRed1Number());
+                        suggestions.add("Red 2: " + g.getRed2Number());
+                        suggestions.add("Red 3: " + g.getRed3Number());
+                        break;
+                    }
                 }
+            } catch (NumberFormatException ignored) {
+
             }
         }
 
@@ -92,7 +99,7 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
             }
         }
 
-        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<>(
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_dropdown_item_1line, suggestions);
         actvRobotNumber.setAdapter(adapter);
     }
