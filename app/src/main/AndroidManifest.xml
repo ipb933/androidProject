@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Cat"
         tools:targetApi="31">
         <activity
-            android:name=".AddGame"
+            android:name=".AddGameActivity"
             android:exported="false" />
         <activity
             android:name=".GamesActivity"
@@ -25,16 +25,16 @@
             android:name=".ShowGames"
             android:exported="false" />
         <activity
-            android:name=".AddRobotInGame"
+            android:name=".AddRobotGameActivity"
             android:exported="false" />
         <activity
-            android:name=".Home"
+            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity2"
             android:exported="false" />
         <activity
-            android:name=".LogIn"
+            android:name=".LogInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

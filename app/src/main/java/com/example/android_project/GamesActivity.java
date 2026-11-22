@@ -42,7 +42,7 @@ public class GamesActivity extends AppCompatActivity  implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if (view == btnAddGame) {
-            Intent intent = new Intent(this, AddGame.class);
+            Intent intent = new Intent(this, AddGameActivity.class);
             addGame.launch(intent);
         }
         if (view == btnBack) {

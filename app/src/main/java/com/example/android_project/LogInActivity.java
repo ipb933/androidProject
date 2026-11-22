@@ -9,10 +9,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LogIn extends AppCompatActivity implements View.OnClickListener {
+public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
     EditText etScouterName, etPassword;
     Button btnLogIn,btnQuit;
 
@@ -52,7 +51,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
             }
             Toast.makeText(this, "Welcome back, " + existingKey, Toast.LENGTH_SHORT).show();
         }
-        Intent intent = new Intent(this, Home.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra("scouterName", scouterName);
         startActivity(intent);
     }

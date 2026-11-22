@@ -26,7 +26,7 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
     Button btnBack;
 
     int currentRobotNumber;
-    Robot currentRobot;
+    Team currentRobot;
     ArrayList<RobotAtGame> robotsAtGame;
     RobotAtGamesAdapter gamesAdapter;
     StorageReference storageReference;
@@ -55,13 +55,13 @@ public class RobotDetailsActivity extends AppCompatActivity implements View.OnCl
         storageReference = FirebaseStorage.getInstance().getReference("RobotImages");
 
         currentRobotNumber = getIntent().getIntExtra("robotNumber", 0);
-        currentRobot = (Robot) getIntent().getSerializableExtra("robot");
+        currentRobot = (Team) getIntent().getSerializableExtra("robot");
         robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame");
         if (robotsAtGame == null) {
             robotsAtGame = new ArrayList<>();
         }
         if (currentRobot == null) {
-            currentRobot = new Robot("", currentRobotNumber);
+            currentRobot = new Team("", currentRobotNumber);
         }
 
         tvDetailsTitle.setText("Team " + currentRobotNumber + " History");

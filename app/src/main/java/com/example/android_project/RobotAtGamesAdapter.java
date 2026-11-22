@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class RobotAtGamesAdapter extends RecyclerView.Adapter<RobotAtGamesAdapter.ViewHolder> {
 
     ArrayList<RobotAtGame> robotAtGames;
-    Robot currentRobot;
+    Team currentRobot;
 
-    public RobotAtGamesAdapter(ArrayList<RobotAtGame> robotAtGames, Robot currentRobot) {
+    public RobotAtGamesAdapter(ArrayList<RobotAtGame> robotAtGames, Team currentRobot) {
         this.robotAtGames = robotAtGames != null ? robotAtGames : new ArrayList<>();
         this.currentRobot = currentRobot;
     }

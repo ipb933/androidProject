@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class AddRobotInGame extends AppCompatActivity implements View.OnClickListener{
+public class AddRobotGameActivity extends AppCompatActivity implements View.OnClickListener{
     String scouterName;
 
     EditText etGameNumber, etRobotScore;
@@ -22,7 +22,7 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
 
     AutoCompleteTextView actvRobotNumber;
     ArrayList<Game> games = new ArrayList<>();
-    ArrayList<Robot> robots = new ArrayList<>();
+    ArrayList<Team> robots = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
         }
 
         if (getIntent().getSerializableExtra("robots") != null) {
-            robots = (ArrayList<Robot>) getIntent().getSerializableExtra("robots");
+            robots = (ArrayList<Team>) getIntent().getSerializableExtra("robots");
         }
 
         etGameNumber.addTextChangedListener(new TextWatcher() {
@@ -94,7 +94,7 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
         }
 
         if (!gameFound) {
-            for (Robot r : robots) {
+            for (Team r : robots) {
                 suggestions.add(String.valueOf(r.getTeamNumber()));
             }
         }
@@ -123,10 +123,16 @@ public class AddRobotInGame extends AppCompatActivity implements View.OnClickLis
                 robotNumber = Integer.parseInt(inputText);
             }
 
-            RobotAtGame robotAtGame = new RobotAtGame(gameNumber, robotNumber, robotScore, scouterName);
+            RobotAtGame robotGame = new RobotAtGame(gameNumber, robotNumber, robotScore, scouterName);
             Intent resultIntent = new Intent();
-            resultIntent.putExtra("robotAtGame", robotAtGame);
-            setResult(RESULT_OK, resultIntent);
+
+            for (Team team : robots) {
+                if (team.teamNumber == robotNumber) {
+                    team.addTeamGame(robotGame);
+                }
+            }
+
+            resultIntent.putExtra("robotGame", robotGame);
             finish();
         }
 

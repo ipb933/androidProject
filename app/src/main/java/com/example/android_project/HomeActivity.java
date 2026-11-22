@@ -12,12 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class Home extends AppCompatActivity implements View.OnClickListener{
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
     String scouterName;
     Button btnAdd, btnShowRobots, btnShowGames;
-    ArrayList<Robot> robots = new ArrayList<>();
-    ArrayList<RobotAtGame> robotsAtGame = new ArrayList<>();
-    RobotsAtGameAdapter robotsAdapter;
+    ArrayList<Team> robots = new ArrayList<>();
     ArrayList<Game> games = new ArrayList<>();
     GameAdapter gameAdapter;
 
@@ -25,7 +23,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        robotsAdapter = new RobotsAtGameAdapter(this, 0, 0, robotsAtGame);
         gameAdapter = new GameAdapter(games);
         btnAdd = (Button) findViewById(R.id.btnAddRobotInGame);
         btnAdd.setOnClickListener(this);
@@ -42,16 +39,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         if (view == btnAdd) {
-            Intent intent = new Intent(this, AddRobotInGame.class);
+            Intent intent = new Intent(this, AddRobotGameActivity.class);
             intent.putExtra("scouterName", scouterName);
             intent.putExtra("games", games);
             intent.putExtra("robots", robots);
-            addRobot.launch(intent);
+            startActivity(intent);
         }
         if (view == btnShowRobots) {
             Intent intent = new Intent(this, RobotsActivity.class);
             intent.putExtra("robots", robots);
-            intent.putExtra("robotsAtGame", robotsAtGame);
             showRobotsActivity.launch(intent);
         }
         if (view == btnShowGames) {
@@ -60,32 +56,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             gamesActivity.launch(intent);
         }
     }
-
-    private final ActivityResultLauncher<Intent> addRobot =
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            RobotAtGame robotAtGame = (RobotAtGame) result.getData().getSerializableExtra("robotAtGame");
-                            if (robotAtGame == null) {
-                                return;
-                            }
-                            robotsAtGame.add(robotAtGame);
-                            robotsAdapter.notifyDataSetChanged();
-
-                            for (Robot robot : robots) {
-                                if (robot.getTeamNumber() == robotAtGame.getRobotNumber()) {
-                                    robot.addScore(robotAtGame.getRobotScore());
-                                    return;
-                                }
-                            }
-
-                            Robot newRobot = new Robot("", robotAtGame.getRobotNumber());
-                            newRobot.addScore(robotAtGame.getRobotScore());
-                            robots.add(newRobot);
-                        } else if (result.getResultCode() == RESULT_CANCELED) {
-                            Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();
-                        }
-                    });
 
     private final ActivityResultLauncher<Intent> gamesActivity =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -101,14 +71,14 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                                     };
                                     for (int teamNum : teamsInGame) {
                                         boolean exists = false;
-                                        for (Robot robot : robots) {
+                                        for (Team robot : robots) {
                                             if (robot.getTeamNumber() == teamNum) {
                                                 exists = true;
                                                 break;
                                             }
                                         }
                                         if (!exists) {
-                                            robots.add(new Robot("", teamNum));
+                                            robots.add(new Team("", teamNum));
                                         }
                                     }
                                 }
@@ -122,15 +92,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            ArrayList<Robot> returnedRobots =
-                                    (ArrayList<Robot>) result.getData().getSerializableExtra("robots");
-                            ArrayList<RobotAtGame> returnedRobotsAtGame =
-                                    (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
-                            if (returnedRobots != null) {
-                                this.robots = returnedRobots;
-                            }
-                            if (returnedRobotsAtGame != null) {
-                                this.robotsAtGame = returnedRobotsAtGame;
+                            ArrayList<Team> robots =
+                                    (ArrayList<Team>) result.getData().getSerializableExtra("robots");
+                            if (robots != null) {
+                                this.robots = robots;
                             }
                         } else if (result.getResultCode() == RESULT_CANCELED) {
                             Toast.makeText(this, "Cancel by User", Toast.LENGTH_SHORT).show();

@@ -6,13 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class AddGame extends AppCompatActivity implements View.OnClickListener{
+public class AddGameActivity extends AppCompatActivity implements View.OnClickListener{
     EditText etGameNumber, etBlue1, etBlue2, etBlue3, etRed1, etRed2, etRed3;
     Button btnSend, btnBack;
 

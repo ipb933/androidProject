@@ -19,8 +19,7 @@ import java.util.ArrayList;
 public class RobotsActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnBack, btnAddRobot;
     RecyclerView rvRobots;
-    ArrayList<Robot> robots = new ArrayList<>();
-    ArrayList<RobotAtGame> robotsAtGame = new ArrayList<>();
+    ArrayList<Team> robots = new ArrayList<>();
     RobotAdapter robotAdapter;
 
     @Override
@@ -36,14 +35,10 @@ public class RobotsActivity extends AppCompatActivity implements View.OnClickLis
         rvRobots.setLayoutManager(new LinearLayoutManager(this));
 
         if (getIntent().getSerializableExtra("robots") != null) {
-            robots = (ArrayList<Robot>) getIntent().getSerializableExtra("robots");
+            robots = (ArrayList<Team>) getIntent().getSerializableExtra("robots");
         }
 
-        if (getIntent().getSerializableExtra("robotsAtGame") != null) {
-            robotsAtGame = (ArrayList<RobotAtGame>) getIntent().getSerializableExtra("robotsAtGame");
-        }
-
-        robotAdapter = new RobotAdapter(robots, robotsAtGame, robotDetailsLauncher);
+        robotAdapter = new RobotAdapter(robots, new ArrayList<>() ,robotDetailsLauncher);
         rvRobots.setAdapter(robotAdapter);
     }
 
@@ -52,7 +47,6 @@ public class RobotsActivity extends AppCompatActivity implements View.OnClickLis
         if (view == btnBack) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra("robots", robots);
-            resultIntent.putExtra("robotsAtGame", robotsAtGame);
             setResult(RESULT_OK, resultIntent);
             finish();
         }
@@ -77,7 +71,7 @@ public class RobotsActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 try {
                     int teamNum = Integer.parseInt(numStr);
-                    robots.add(new Robot(name, teamNum));
+                    robots.add(new Team(name, teamNum));
                     robotAdapter.notifyDataSetChanged();
                 } catch (NumberFormatException e) {
                     Toast.makeText(view.getContext(), "Invalid team number", Toast.LENGTH_SHORT).show();
@@ -92,35 +86,10 @@ public class RobotsActivity extends AppCompatActivity implements View.OnClickLis
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                            ArrayList<RobotAtGame> updatedList =
-                                    (ArrayList<RobotAtGame>) result.getData().getSerializableExtra("robotsAtGame");
-                            Robot updatedRobot =
-                                    (Robot) result.getData().getSerializableExtra("robot");
-                            int targetRobotNumber = result.getData().getIntExtra("robotNumber", -1);
-
-                            if (updatedRobot != null) {
-                                if (targetRobotNumber == -1) {
-                                    targetRobotNumber = updatedRobot.getTeamNumber();
-                                }
-                                for (int i = 0; i < robots.size(); i++) {
-                                    if (robots.get(i).getTeamNumber() == updatedRobot.getTeamNumber()) {
-                                        robots.set(i, updatedRobot);
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (updatedList != null && targetRobotNumber != -1) {
-                                for (int i = robotsAtGame.size() - 1; i >= 0; i--) {
-                                    if (robotsAtGame.get(i).getRobotNumber() == targetRobotNumber) {
-                                        robotsAtGame.remove(i);
-                                    }
-                                }
-                                robotsAtGame.addAll(updatedList);
-                                if (!updatedList.isEmpty()) {
-                                    int lastScore = updatedList.get(updatedList.size() - 1).getRobotScore();
-                                    Toast.makeText(this, "Last score: " + lastScore, Toast.LENGTH_SHORT).show();
-                                }
+                            ArrayList<Team> robots =
+                                    (ArrayList<Team>) result.getData().getSerializableExtra("robots");
+                            if (robots != null) {
+                                this.robots = robots;
                             }
 
                             robotAdapter.notifyDataSetChanged();

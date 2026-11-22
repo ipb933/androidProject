@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHolder> {
 
-    ArrayList<Robot> robots;
+    ArrayList<Team> robots;
     ArrayList<RobotAtGame> robotsAtGame;
     ActivityResultLauncher<Intent> robotDetailsLauncher;
 
-    public RobotAdapter(ArrayList<Robot> robots, ArrayList<RobotAtGame> robotAtGames, ActivityResultLauncher<Intent> robotDetailsLauncher) {
+    public RobotAdapter(ArrayList<Team> robots, ArrayList<RobotAtGame> robotAtGames, ActivityResultLauncher<Intent> robotDetailsLauncher) {
         this.robots = robots;
         this.robotsAtGame = robotAtGames;
         this.robotDetailsLauncher = robotDetailsLauncher;
@@ -37,26 +37,26 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RobotViewHolder holder, int position) {
-        Robot robot = robots.get(position);
+        Team team = robots.get(position);
 
 
-        holder.tvRobotNumber.setText("Team Number: " + robot.getTeamNumber());
-        holder.tvTeamName.setText("Name: " + (robot.getTeamName() == null || robot.getTeamName().isEmpty() ? "No Name" : robot.getTeamName()));
+        holder.tvRobotNumber.setText("Team Number: " + team.getTeamNumber());
+        holder.tvTeamName.setText("Name: " + (team.getTeamName() == null || team.getTeamName().isEmpty() ? "No Name" : team.getTeamName()));
 
-        if (robot.getGamesPlayed() == 0) {
+        if (team.getTeamGames().isEmpty()) {
             holder.tvRobotAverageScore.setText("Avg Score: Didn't play yet");
         } else {
-            holder.tvRobotAverageScore.setText(String.format("Avg Score: %.2f", robot.getAverageScore()));
+            holder.tvRobotAverageScore.setText(String.format("Avg Score: %.2f", team.getAverageScore()));
         }
 
         holder.btnEditName.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setTitle("Enter Team Name");
             final EditText input = new EditText(v.getContext());
-            input.setText(robot.getTeamName());
+            input.setText(team.getTeamName());
             builder.setView(input);
             builder.setPositiveButton("Save", (dialog, which) -> {
-                robot.setTeamName(input.getText().toString());
+                team.setTeamName(input.getText().toString());
                 notifyItemChanged(holder.getBindingAdapterPosition());
             });
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -66,7 +66,7 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
         holder.btnDelete.setOnClickListener(v -> {
             int pos = holder.getBindingAdapterPosition();
             if (pos != RecyclerView.NO_POSITION) {
-                Robot robotToDelete = robots.get(pos);
+                Team robotToDelete = robots.get(pos);
 
                 robots.remove(pos);
 
@@ -85,13 +85,13 @@ public class RobotAdapter extends RecyclerView.Adapter<RobotAdapter.RobotViewHol
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), RobotDetailsActivity.class);
-            intent.putExtra("robotNumber", robot.getTeamNumber());
-            intent.putExtra("robot", robot);
+            intent.putExtra("robotNumber", team.getTeamNumber());
+            intent.putExtra("robot", team);
 
             ArrayList<RobotAtGame> filteredGames = new ArrayList<>();
             if (robotsAtGame != null) {
                 for (RobotAtGame entry : robotsAtGame) {
-                    if (entry.getRobotNumber() == robot.getTeamNumber()) {
+                    if (entry.getRobotNumber() == team.getTeamNumber()) {
                         filteredGames.add(entry);
                     }
                 }
